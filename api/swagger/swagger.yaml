@@ -1,0 +1,102 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: remoteSessionWebServer
+# during dev, should point to your local machine
+host: localhost:3000
+# basePath prefixes all resource paths
+basePath: /api/
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  # - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+ /sessions:
+    get:
+      tags:
+      - "sessions"
+      summary: "Get sessions in the system"
+      description: ""
+      operationId: "getSession"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Sessions"
+        500:
+          description: "Server error"
+    post:
+      tags:
+      - "sessions"
+      summary: "Registers a new session"
+      description: ""
+      operationId: "registerSession"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Pet object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Session"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/Sessions"
+        405:
+          description: "Invalid input"
+definitions:
+  Sessions:
+    type: array
+    items:
+      $ref: "#/definitions/Session"
+  Session:
+    type: "object"
+    properties:
+      # link:
+      #   type: "string"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      schedule:
+        type: "object"
+        properties:
+          startDateTime:
+            type: "string"
+            format: "date-time"
+          endDateTime:
+            type: "string"
+            format: "date-time"
+      location:
+          type: "string"
+      room:
+          type: "string"
+      speakers:
+        type: array
+        items:
+          type: "string"
+      participants:
+        type: array
+        items:
+          type: "string"
+      # discussionThread:
+      #     type: "string"
+      # createdOn:
+      #   type: "string"
+      # modifiedOn:
+      #   type: "string"
